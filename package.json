@@ -1,0 +1,32 @@
+{
+  "name": "mern-blank",
+  "version": "1.0.0",
+  "description": "mern-blank to start development faster",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install --prefix client",
+    "server": "nodemon server.js",
+    "client": "npm run start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lievanov/mern-blank.git"
+  },
+  "keywords": [
+    "mern",
+    "blank"
+  ],
+  "author": "Diego Lievano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lievanov/mern-blank/issues"
+  },
+  "homepage": "https://github.com/Lievanov/mern-blank#readme",
+  "dependencies": {
+    "concurrently": "^3.5.1",
+    "express": "^4.16.3",
+    "nodemon": "^1.17.4"
+  }
+}
