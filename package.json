@@ -1,7 +1,7 @@
 {
-  "name": "mern-blank",
+  "name": "parking-assignment-app",
   "version": "1.0.0",
-  "description": "mern-blank to start development faster",
+  "description": "Parking assignment application.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,18 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lievanov/mern-blank.git"
+    "url": "git+https://github.com/Lievanov/parking-assignment-app.git"
   },
-  "keywords": [
-    "mern",
-    "blank"
-  ],
   "author": "Diego Lievano",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Lievanov/mern-blank/issues"
+    "url": "https://github.com/Lievanov/parking-assignment-app/issues"
   },
-  "homepage": "https://github.com/Lievanov/mern-blank#readme",
+  "homepage": "https://github.com/Lievanov/parking-assignment-app#readme",
   "dependencies": {
     "concurrently": "^3.5.1",
     "express": "^4.16.3",
