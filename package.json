@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/Lievanov/parking-assignment-app#readme",
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
+    "body-parser": "^1.18.3",
+    "clone": "^2.1.1",
     "concurrently": "^3.5.1",
     "express": "^4.16.3",
     "nodemon": "^1.17.4"

@@ -8,6 +8,8 @@ In the application you would be able to:
 
 ### Installation
 
+Create a key for SendGrid API and add it into config/dev.js file.
+
 Developed with the following versions:
 > - node v8.11.1
 > - npm v6.0.0
