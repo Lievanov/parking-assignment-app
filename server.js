@@ -1,13 +1,15 @@
 const express = require('express');
 const db = require('./db');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
-
+app.use(cors())
 // use in postman
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'))
 // use with react
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 const PORT = process.env.PORT || 5000;
 
 // Routes
@@ -23,7 +25,7 @@ app.get('/login/:username/:password', (req, res) => {
   const { username, password } = req.params;
   if(username && password){
     const currentUser = db.login(username, password);
-    if(currentUser  === {}){
+    if(currentUser  !== {}){
       res.send(currentUser);
     } else {
       res.status(403).send({"error": "Username or password incorrect."})

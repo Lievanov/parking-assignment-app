@@ -7,34 +7,38 @@ const db = {
       name: "Mario Portillo",
       username: "mario.portillo",
       password: "mapor91",
-      email: "mario.portillo@rulesware.com"
+      email: "mario.portillo@rulesware.com",
+      location: "Republic Parking"
     },
     "d34dd02" : {
       id: "d34dd02",
       name: "Diego Lievano",
       username: "diego.lievano",
       password: "liev",
-      email: "diego.lievano@rulesware.com"
+      email: "diego.lievano@rulesware.com",
+      location: "Avante 314"
     },
     "023dm0d" : {
       id: "023dm0d",
       name: "Edgardo Hernandez",
       username: "ed.hernandez",
       password: "ed",
-      email: "edgardo.hernandez@rulesware.com"
+      email: "edgardo.hernandez@rulesware.com",
+      location: "Avante 315"
     },
     "c34oimc4" : {
       id: "c34oimc4",
       name: "Alexis Ayala",
       username: "alexis.ayala",
       password: "alexis",
-      email: "alexis.ayala@rulesware.com"
+      email: "alexis.ayala@rulesware.com",
+      location: "Avante 316"
     }
   },
   requests: {
 
   },
-  waitingList: ["kd0239d", "c34oimc4", "d34dd02", "023dm0d"]
+  waitingList: ["d34dd02", "kd0239d", "c34oimc4", "023dm0d"]
 }
 
 const getUsers = () => (db.users)
@@ -59,7 +63,8 @@ const login = (username, password) => {
 const parkingLoan = (request) => {
   const id = Math.random().toString(36).substr(-8);
   const requestorId = db.waitingList[0];
-
+  db.waitingList.shift();
+  db.waitingList.push(requestorId);
   db.requests[id] = {
     id,
     userId: request.userId,
@@ -76,8 +81,11 @@ const parkingLoan = (request) => {
 const updateRequest = (params) => {
   const {requestId, status } = params;
   if(status === 'Rejected'){
-    // send another email
-    // get the next requestor Id in the request
+    const requestorId = db.waitingList[0];
+    db.waitingList.shift();
+    db.waitingList.push(requestorId);
+    db.requests[requestId].requestorId = requestorId;
+    email.sendEmail(db.users[requestorId], db.requests[requestId]);
   } else if(requestId && status === 'Accepted'){
     db.requests[requestId].status = status;
     // send information to the spot owner
