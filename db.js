@@ -1,4 +1,6 @@
 const email = require('./config/email');
+const mongoose = require('mongoose');
+const Request = mongoose.model('requests');
 
 const db = {
   users: {
@@ -61,8 +63,21 @@ const login = (username, password) => {
 }
 
 const parkingLoan = (request) => {
-  const id = Math.random().toString(36).substr(-8);
+
   const requestorId = db.waitingList[0];
+
+  let newRequest = new Request({
+    userId: request.userId,
+    startDate: request.startDate,
+    endDate: request.endDate,
+    location: request.location,
+    status: "Pending",
+    requestorId
+  });
+  newRequest.save(err => {
+    console.log(newRequest.id);
+  })
+  const id = Math.random().toString(36).substr(-8);
   db.waitingList.shift();
   db.waitingList.push(requestorId);
   db.requests[id] = {

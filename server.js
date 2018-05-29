@@ -1,13 +1,17 @@
 const express = require('express');
-const db = require('./db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const keys = require("./config/keys");
+require('./models/Request');
+const db = require('./db');
 
+mongoose.connect(keys.mongoURI);
 const app = express();
-app.use(cors())
 // use in postman
 // app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'))
+app.use(cors());
+app.use(express.static('public'));
 // use with react
 app.use(bodyParser.json());
 const PORT = process.env.PORT || 5000;

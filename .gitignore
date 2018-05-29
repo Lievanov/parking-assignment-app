@@ -1,6 +1,9 @@
 # Back-end side
+
 node_modules
 notes.txt
+config/dev
+
 # front-end side
 
 # dependencies
