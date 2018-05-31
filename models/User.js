@@ -5,7 +5,10 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: {type: String, required: true},
   password: {type: String, required: true},
-  role: { type: String, default: "user" }
+  role: { type: String, default: "user" },
+  name: String,
+  location: String,
+  email: String
 });
 
 userSchema.methods.generateHash = (password) => {

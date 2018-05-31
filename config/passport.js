@@ -2,6 +2,9 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const Strategy = require('passport-local').Strategy;
+const User = mongoose.model('users');
+const jwt = require('jsonwebtoken');
+const keys = require('./keys');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -22,14 +25,14 @@ passport.use('local-signup', new Strategy(
           const newUser = new User();
             newUser.username = username;
             newUser.password = newUser.generateHash(password);
-            console.log(`login for ${newUser.username} and ${newUser.password}`);
-            if(username === "admin"){
+            if(username === "diego.lievano"){
                 newUser.role = "Admin";
             } else {
                 newUser.role = "User";
             }
             try{
                 const user = await newUser.save();
+                const token = await jwt.sign(user.id, keys.jwtSecret);
                 return done(null, user);
             } catch (err) {
                 return done(null, false);
@@ -43,15 +46,15 @@ passport.use('local-signup', new Strategy(
 
 passport.use('local-login', new Strategy(
     (username, password, done) => {
-        User.findOne({'username': username }, async (err, user, res, req) => {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false);
-            }
-            if (!bcrypt.compareSync(password, user.password)) {
-                done(null, false);
-                return true;
-            }
-            return done(null, user);
-        });
+      User.findOne({'username': username }, async (err, user, res, req) => {
+          if (err) { return done(err); }
+          if (!user) {
+              return done(null, false);
+          }
+          if (!bcrypt.compareSync(password, user.password)) {
+              done(null, false);
+              return true;
+          }
+          return done(null, user);
+      });
   }));

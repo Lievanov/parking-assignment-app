@@ -1,7 +1,7 @@
 const passport = require("passport");
 
 module.exports = app => {
-  //(Body Required: username, password, role)
+  //(Body Required: username, password, role, name, location, email)
   app.post('/signup',
     passport.authenticate("local-signup"),
     (req, res) => {

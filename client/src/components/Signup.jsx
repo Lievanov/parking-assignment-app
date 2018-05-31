@@ -3,10 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    email: '',
+    name: ''
   }
 
   handleChange = (e) => {
@@ -22,8 +24,18 @@ class Login extends Component {
             <div className="formBackground">
               <div>
                 <img src="login-logo.png" height="60px" width="260px" alt="login-logo"></img>
+                <h4>Create new Account</h4>
               </div>
               <form>
+                <TextField
+                  fullWidth
+                  id="name"
+                  name="name"
+                  label="Name"
+                  margin="normal"
+                  onChange={this.handleChange}
+                  required
+                  />
                 <TextField
                   fullWidth
                   id="username"
@@ -31,6 +43,16 @@ class Login extends Component {
                   label="Username"
                   margin="normal"
                   onChange={this.handleChange}
+                  required
+                  />
+                <TextField
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="Email"
+                  margin="normal"
+                  onChange={this.handleChange}
+                  type="email"
                   required
                   />
                 <TextField
@@ -43,10 +65,7 @@ class Login extends Component {
                   type="password"
                   required
                   />
-                <Button type="button" onClick={() => this.props.login(this.state.username, this.state.password)}>Login</Button>
-                <br />
-                <h4>Sign up to create a new account</h4>
-                <Button type="button" onClick={() => this.props.signup()}>Sign Up</Button>
+                <Button type="button" onClick={() => this.props.createAccount(this.state.username, this.state.password, this.state.name, this.state.email)}>Create Account</Button>
               </form>
             </div>
           </Grid>
@@ -56,4 +75,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Signup

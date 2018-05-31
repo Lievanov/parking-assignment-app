@@ -3,32 +3,48 @@ import axios from 'axios';
 import './App.css';
 import Header from './components/Header';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import Request from './components/Request';
 import EmailResponse from './components/EmailResponse';
+import Dashboard from './components/Dashboard';
 import { Route } from 'react-router-dom';
+const api = 'http://localhost:5000';
 
 class App extends Component {
 
   state = {
-    page: "login",
     userId: "",
     location: "",
     name: "",
+    email: '',
     showMessage: "false"
   }
 
-  changePage = page => {
-    this.setState({ page })
+  signUp = (username, password, email, name) => {
+    axios.post(`${api}/signup`, {
+      username, password, email, name, role: 'user'
+    }).then(response => {
+      this.setState({
+        userId: response.data.id,
+        name: response.data.name,
+        email: response.data.email,
+        location: response.data.location,
+        role: response.data.role
+      })
+    })
+    .catch(error => {
+      console.log(error.response)
+    })
   }
 
   login = (username, password) => {
-    axios.get(`http://localhost:5000/login/${username}/${password}`, {'Accept': 'application/json'})
+    axios.post(`${api}/login/`, {username, password})
       .then(response => {
         this.setState({
           userId: response.data.id,
           location: response.data.location,
           name: response.data.name,
-          page: "Request"
+          role: response.data.role
         });
       })
       .catch(error => {
@@ -38,7 +54,7 @@ class App extends Component {
 
   createRequest = (startDate, endDate) => {
     const { userId, location } = this.state;
-    axios.post(`http://localhost:5000/parking-loan`, {
+    axios.post(`${api}/parking-loan`, {
       startDate,
       endDate,
       userId,
@@ -54,7 +70,7 @@ class App extends Component {
   }
 
   changeRequest = (requestId, status) => {
-    axios.patch(`http://localhost:5000/parking-loan/${requestId}/${status}`)
+    axios.patch(`${api}/parking-loan/${requestId}/${status}`)
       .then(response => {
         this.setState({ page: "submit" });
       })
@@ -66,20 +82,50 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         <Header name={this.state.name}/>
-        {this.state.page === "login" &&
+
+        <Route exact path='/' render={ ({history}) => (
           <Login
-            login={(username, password) => {
+            login={ (username, password) => {
               this.login(username, password)
+              history.push('/parking-loan')
             }}
-        />}
-        {this.state.page === "Request" &&
-          <Request createRequest={(startDate, endDate) => {
-            this.createRequest(startDate, endDate)
-          }}
-          showMessage={this.state.showMessage}
+            signup={() => {
+              history.push('/signup')
+            }}
           />
-        }
+          )}
+        />
+      <Route path='/signup' render={(props) => (
+          <Signup
+            createAccount={(username, password, email) => {
+              this.signUp(username, password, email)
+              props.history.push('/dashboard')
+            }}
+          />
+        )}
+      />
+      <Route path='/dashboard' render={ (props) => (
+          <Dashboard
+            createRequest={
+              props.history.push('/parking-loan')
+            }
+          />
+        )}
+      />
+        <Route exact path='/parking-loan'
+          render={(props) =>(
+            <Request
+              {...props}
+              createRequest={(startDate, endDate) => {
+                this.createRequest(startDate, endDate)
+                props.history.push('/')
+              }}
+            />
+          )}
+        />
+
         <Route path="/parking-loan/:id/:status"
           render={(props) =>(
             <EmailResponse
