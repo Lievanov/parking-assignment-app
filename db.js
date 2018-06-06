@@ -36,7 +36,24 @@ const db = {
     }
   },
   requests: {
-
+    "d09w2tlr" : {
+      id: "d09w2tlr",
+      userId: "d34dd02",
+      startDate: "2018-02-03",
+      endDate: "2018-02-05",
+      location: "Avante 314",
+      status: "Pending",
+      requestorId: "d34dd02"
+    },
+    "dp2oij4fko" : {
+      id: "dp2oij4fko",
+      userId: "d34dd02",
+      startDate: "2018-02-03",
+      endDate: "2018-02-05",
+      location: "Avante 314",
+      status: "Taked",
+      requestorId: "d34dd02"
+    }
   },
   waitingList: ["d34dd02", "kd0239d", "c34oimc4", "023dm0d"]
 }
@@ -74,7 +91,9 @@ const parkingLoan = (request) => {
     status: "Pending",
     requestorId
   }
+  console.log("What: " + db.requests[id]);
   email.sendEmail(db.users[requestorId], db.requests[id]);
+  console.log(db.requests[id]);
   return db.requests;
 }
 
