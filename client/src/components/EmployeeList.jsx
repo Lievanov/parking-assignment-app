@@ -7,11 +7,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 
 class EmployeeList extends Component{
-
-  componentWillMount(){
-    console.log(this.props.employees);
-  }
-
   render() {
     return (
       <div className='tableMargin'>

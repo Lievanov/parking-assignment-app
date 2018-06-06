@@ -16,12 +16,22 @@ class AvailableSpots extends Component {
               <TableHead>
                 <TableRow>
                   <TableCell>Spot Owner</TableCell>
-                  <TableCell>Spot Receiver</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>End Date</TableCell>
+                  <TableCell>Location</TableCell>
+                  <TableCell>Current Requestor</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                
+                {this.props.spots.map(spot => (
+                  <TableRow key={spot.id}>
+                    <TableCell>{ spot.spotOwner }</TableCell>
+                    <TableCell>{spot.startDate}</TableCell>
+                    <TableCell>{spot.endDate}</TableCell>
+                    <TableCell>{spot.location}</TableCell>
+                    <TableCell>{spot.requestorName}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </Paper>

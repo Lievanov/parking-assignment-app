@@ -38,7 +38,7 @@ const db = {
   requests: {
     "d09w2tlr" : {
       id: "d09w2tlr",
-      userId: "d34dd02",
+      userId: "kd0239d",
       startDate: "2018-02-03",
       endDate: "2018-02-05",
       location: "Avante 314",
@@ -52,17 +52,43 @@ const db = {
       endDate: "2018-02-05",
       location: "Avante 314",
       status: "Taked",
-      requestorId: "d34dd02"
+      requestorId: "c34oimc4"
     }
   },
   waitingList: ["d34dd02", "kd0239d", "c34oimc4", "023dm0d"]
 }
 
+const convertObjectoToArray = objName => {
+  const allKeys = Object.keys(objName);
+  return allKeys.map(key => objName[key]);
+}
+
 const getUsers = () => (db.users)
 
-const getRequests = () => (db.requests)
+const getEmployee = (id) => (db.users[id])
 
-const getWatingList = () =>  (db.waitingList)
+const getRequests = () => {
+  const requests = convertObjectoToArray(db.requests);
+  const spots = [];
+  requests.map(spot => {
+    const finalSpot = {
+      id: spot.id,
+      spotOwner: db.users[spot.userId].name,
+      startDate: spot.startDate,
+      endDate: spot.endDate,
+      location: spot.location,
+      status: spot.location,
+      requestorName: db.users[spot.requestorId].name
+    }
+    spots.push(finalSpot);
+  })
+  return spots;
+}
+
+const getWatingList = () =>  {
+    const waitList = convertObjectoToArray(db.waitingList);
+    return waitList.map(item => db.users[item].name);
+}
 
 const login = (username, password) => {
   const users = db.users;
@@ -118,5 +144,6 @@ module.exports = {
   login,
   parkingLoan,
   updateRequest,
-  getRequests
+  getRequests,
+  getEmployee
 }

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Lievanov/parking-assignment-app#readme",
   "dependencies": {
+    "@material-ui/icons": "^1.1.0",
     "@sendgrid/mail": "^6.2.1",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",

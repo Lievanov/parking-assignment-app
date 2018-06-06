@@ -18,7 +18,9 @@ class App extends Component {
     location: "",
     name: "",
     showMessage: "false",
-    employees: []
+    employees: [],
+    spots: [],
+    waitList: []
   }
 
   convertObjectoToArray = objName => {
@@ -26,8 +28,10 @@ class App extends Component {
     return allKeys.map(key => objName[key]);
   }
 
-  componentDidMount(){
-    this.getEmployees();
+  async componentDidMount(){
+    await this.getEmployees();
+    await this.getAvailableSpots();
+    await this.getWaitList();
   }
 
   changePage = page => {
@@ -36,8 +40,17 @@ class App extends Component {
 
   getEmployees = async () => {
     const employees = await axios.get(`${api}/employees`);
-    console.log('await ' + this.convertObjectoToArray(employees.data))
     this.setState({employees: this.convertObjectoToArray(employees.data)})
+  }
+
+  getWaitList = async (id) => {
+    const waitList = await axios.get(`${api}/waiting-list`);
+    this.setState({ waitList: waitList.data });
+  }
+
+  getAvailableSpots = async () => {
+    const spots = await axios.get(`${api}/requests`);
+    this.setState({spots: spots.data})
   }
 
   signUp = (username, password, email, name) => {
@@ -130,6 +143,8 @@ class App extends Component {
           <Dashboard
             {...props}
             employees={this.state.employees}
+            spots={this.state.spots}
+            waitList={this.state.waitList}
           />
         )}
       />
@@ -151,6 +166,7 @@ class App extends Component {
               {...props}
               request={(requestId, status) => {this.changeRequest(requestId, status)}}
               page={(CurrentPage) => this.changePage(CurrentPage)}
+              employee={(id) => {this.getEmployeeInfo(id)}}
             />
           )}
         />

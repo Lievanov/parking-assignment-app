@@ -5,6 +5,11 @@ module.exports = app => {
     res.send(db.getUsers())
   })
 
+  app.get('/employees/:id', (req, res) => {
+    const { id } = req.params;
+    res.send(db.getEmployee(id))
+  })
+
   app.get('/requests', (req, res) => {
     res.send(db.getRequests())
   })
