@@ -5,9 +5,7 @@ class EmailResponse extends Component {
   componentDidMount(){
     const {id, status} = this.props.match.params;
     console.log(`${id} and ${status}`);
-    if(id){
-      this.props.page("email");
-    }
+    this.props.request(id, status);
   }
 
   render() {

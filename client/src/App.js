@@ -103,7 +103,7 @@ class App extends Component {
   }
 
   changeRequest = (requestId, status) => {
-    axios.patch(`http://localhost:5000/parking-loan/${requestId}/${status}`)
+    axios.patch(`${api}/parking-loan/${requestId}/${status}`)
       .then(response => {
         this.setState({ page: "submit" });
       })
@@ -152,9 +152,13 @@ class App extends Component {
           render={(props) =>(
             <Request
               {...props}
+              location={this.state.location}
               createRequest={(startDate, endDate) => {
                 this.createRequest(startDate, endDate)
-                props.history.push('/')
+                this.getEmployees();
+                this.getAvailableSpots();
+                this.getWaitList();
+                props.history.push('/dashboard')
               }}
             />
           )}

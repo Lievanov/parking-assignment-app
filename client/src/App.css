@@ -14,3 +14,11 @@
 .tableMargin {
   margin: 15px;
 }
+
+.redLabel{
+  color: #AA2328;
+}
+
+.greenLabel {
+  color: #28AA23;
+}

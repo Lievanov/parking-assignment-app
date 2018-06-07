@@ -20,6 +20,7 @@ class AvailableSpots extends Component {
                   <TableCell>End Date</TableCell>
                   <TableCell>Location</TableCell>
                   <TableCell>Current Requestor</TableCell>
+                  <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -30,6 +31,7 @@ class AvailableSpots extends Component {
                     <TableCell>{spot.endDate}</TableCell>
                     <TableCell>{spot.location}</TableCell>
                     <TableCell>{spot.requestorName}</TableCell>
+                    <TableCell>{(spot.status === 'Accepted' && <p className="greenLabel">{spot.status}</p>) || <p className="redLabel">{spot.status}</p> }</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

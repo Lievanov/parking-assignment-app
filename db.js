@@ -7,7 +7,7 @@ const db = {
       name: "Mario Portillo",
       username: "mario.portillo",
       password: "mapor91",
-      email: "mario.portillo@rulesware.com",
+      email: "diego.lievano@rulesware.com",
       location: "Republic Parking"
     },
     "d34dd02" : {
@@ -16,14 +16,14 @@ const db = {
       username: "diego.lievano",
       password: "liev",
       email: "diego.lievano@rulesware.com",
-      location: "Avante 314"
+      location: "No Parking Spot"
     },
     "023dm0d" : {
       id: "023dm0d",
       name: "Edgardo Hernandez",
       username: "ed.hernandez",
       password: "ed",
-      email: "edgardo.hernandez@rulesware.com",
+      email: "diego.lievano@rulesware.com",
       location: "Avante 315"
     },
     "c34oimc4" : {
@@ -31,28 +31,28 @@ const db = {
       name: "Alexis Ayala",
       username: "alexis.ayala",
       password: "alexis",
-      email: "alexis.ayala@rulesware.com",
+      email: "diego.lievano@rulesware.com",
       location: "Avante 316"
     }
   },
   requests: {
     "d09w2tlr" : {
       id: "d09w2tlr",
-      userId: "kd0239d",
+      userId: "023dm0d",
       startDate: "2018-02-03",
       endDate: "2018-02-05",
-      location: "Avante 314",
-      status: "Pending",
+      location: "Avante 315",
+      status: "Accepted",
       requestorId: "d34dd02"
     },
     "dp2oij4fko" : {
       id: "dp2oij4fko",
-      userId: "d34dd02",
+      userId: "c34oimc4",
       startDate: "2018-02-03",
       endDate: "2018-02-05",
-      location: "Avante 314",
-      status: "Taked",
-      requestorId: "c34oimc4"
+      location: "Avante 316",
+      status: "Accepted",
+      requestorId: "kd0239d"
     }
   },
   waitingList: ["d34dd02", "kd0239d", "c34oimc4", "023dm0d"]
@@ -77,7 +77,7 @@ const getRequests = () => {
       startDate: spot.startDate,
       endDate: spot.endDate,
       location: spot.location,
-      status: spot.location,
+      status: spot.status,
       requestorName: db.users[spot.requestorId].name
     }
     spots.push(finalSpot);
@@ -117,9 +117,7 @@ const parkingLoan = (request) => {
     status: "Pending",
     requestorId
   }
-  console.log("What: " + db.requests[id]);
   email.sendEmail(db.users[requestorId], db.requests[id]);
-  console.log(db.requests[id]);
   return db.requests;
 }
 
@@ -133,7 +131,10 @@ const updateRequest = (params) => {
     email.sendEmail(db.users[requestorId], db.requests[requestId]);
   } else if(requestId && status === 'Accepted'){
     db.requests[requestId].status = status;
-    // send information to the spot owner
+    const spotOwner = db.users[db.requests[requestId].userId],
+          requestor = db.users[db.requests[requestId].requestorId],
+          request = db.requests[requestId];
+    email.acceptedSpot(spotOwner, requestor, request);
   }
   return db.requests[requestId];
 }

@@ -15,8 +15,8 @@ class WaitingList extends Component {
         <Paper>
           <List component="nav">
             {this.props.waitList.map(emp => (
-              <div>
-                <ListItem key={emp}>
+              <div key={emp}>
+                <ListItem>
                   <Avatar>
                     <AccountCircle />
                   </Avatar>

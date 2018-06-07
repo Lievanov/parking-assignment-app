@@ -21,8 +21,21 @@ class Request extends Component {
           <Grid item sm={3}></Grid>
           <Grid item xs={12} sm={6}>
             <div className="formBackground">
-              <h2>Create a new parking request</h2>
+              <h2>Free a Parking Spot</h2>
               <form>
+                <TextField
+                  fullWidth
+                  id="location"
+                  name="location"
+                  type="text"
+                  label="Location"
+                  value={this.props.location}
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  disabled
+                />
                 <TextField
                   fullWidth
                   id="startDate"

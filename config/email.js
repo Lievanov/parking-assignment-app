@@ -29,3 +29,30 @@ module.exports.sendEmail = (user, request) => {
   sgMail.send(msg);
   return true;
 }
+
+module.exports.acceptedSpot = (spotOwner, requestor, request) => {
+  sgMail.setApiKey(keys.emailAPI);
+  const msg = {
+    to: spotOwner.email,
+    from: 'no-reply@rulesware.com',
+    subject: '[Parking Application] Your parking spot has been taken.',
+    html: `<div style="background-color: #f2f2f2;">
+<br />
+<div style="background-color: #B42529; width: 100%; height: 80px;text-align: center; color: #FFFFFF;"><p style="padding-top: 25px; font-size: 20px;">Rulesware - Parking Assignment</p></div>
+<div style="text-align: center;">
+  <p>Hello <strong>${spotOwner.name}</strong>,</p>
+  <p>You parking spot in <strong>${request.location}</strong> has been assigned to <strong>${requestor.name}</strong>.</p>
+  <p>From: <strong>${request.startDate}</strong></p>
+  <p>To: <strong>${request.endDate}</strong></p>
+  <p>The parking spot requestor has been notified, in case you want to contact it, send an email to <strong>${requestor.email}</strong>. </p>
+</div>
+<div style="height: 50px; padding-top: 30px; text-align: center;">
+</div>
+
+
+<div style="background-color: #B42529; width: 100%; height: 80px;text-align: right; color: #FFFFFF;"><p style="padding-top: 25px; padding-right:10px; font-size: 15px;">Rulesware - 2018</p></div>
+</div>`,
+  };
+  sgMail.send(msg);
+  return true;
+}
