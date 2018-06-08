@@ -8,6 +8,8 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import EmailResponse from './components/EmailResponse';
 import { Route } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const api = 'http://localhost:5000';
 
 class App extends Component {
@@ -36,6 +38,26 @@ class App extends Component {
 
   changePage = page => {
     this.setState({ page })
+  }
+
+  updateWaitList = () => {
+    const waitList = this.state.waitList,
+          lastRequestor = waitList[0];
+    waitList.shift();
+    waitList.push(lastRequestor);
+    this.setState({ waitList });
+  }
+
+  updateAvailableSpot = (lastSpot, isNewSpot) => {
+    // this function must be changed once the app has a real database
+    if(isNewSpot){
+      this.setState({ spots: [...this.state.spots, lastSpot]})
+    } else {
+      const spots = this.state.spots;
+      spots.pop();
+      spots.push(lastSpot);
+      this.setState({ spots });
+    }
   }
 
   getEmployees = async () => {
@@ -79,6 +101,13 @@ class App extends Component {
           name: response.data.name,
           page: "Request"
         });
+        toast.success(`Welcome to the Parking Loan Application!`, {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
       })
       .catch(error => {
         console.log(error.response);
@@ -94,8 +123,14 @@ class App extends Component {
       location
     })
       .then(response => {
-        console.log(response);
-        this.setState({ showMessage: "true"});
+        this.updateAvailableSpot(response.data ,true);
+        toast.success(`Your spot is now available !`, {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
       })
       .catch(error => {
         console.log(error.response);
@@ -155,9 +190,7 @@ class App extends Component {
               location={this.state.location}
               createRequest={(startDate, endDate) => {
                 this.createRequest(startDate, endDate)
-                this.getEmployees();
-                this.getAvailableSpots();
-                this.getWaitList();
+                this.updateWaitList();
                 props.history.push('/dashboard')
               }}
             />
@@ -174,6 +207,16 @@ class App extends Component {
             />
           )}
         />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        dragablepauseOnHover
+      />
       </div>
     );
   }

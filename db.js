@@ -39,8 +39,8 @@ const db = {
     "d09w2tlr" : {
       id: "d09w2tlr",
       userId: "023dm0d",
-      startDate: "2018-02-03",
-      endDate: "2018-02-05",
+      startDate: "2018-03-01",
+      endDate: "2018-03-10",
       location: "Avante 315",
       status: "Accepted",
       requestorId: "d34dd02"
@@ -118,7 +118,18 @@ const parkingLoan = (request) => {
     requestorId
   }
   email.sendEmail(db.users[requestorId], db.requests[id]);
-  return db.requests;
+
+  const newSpot = {
+    id,
+    spotOwner: db.users[db.requests[id].userId].name,
+    startDate: db.requests[id].startDate,
+    endDate: db.requests[id].endDate,
+    location: db.requests[id].location,
+    status: db.requests[id].status,
+    requestorName: db.users[db.requests[id].requestorId].name
+  }
+
+  return newSpot;
 }
 
 const updateRequest = (params) => {
@@ -136,7 +147,18 @@ const updateRequest = (params) => {
           request = db.requests[requestId];
     email.acceptedSpot(spotOwner, requestor, request);
   }
-  return db.requests[requestId];
+
+  const updatedSpot = {
+    id,
+    spotOwner: db.users[db.requests[id].userId].name,
+    startDate: db.requests[id].startDate,
+    endDate: db.requests[id].endDate,
+    location: db.requests[id].location,
+    status: db.requests[id].status,
+    requestorName: db.users[db.requests[id].requestorId].name
+  }
+
+  return updatedSpot;
 }
 
 module.exports = {
